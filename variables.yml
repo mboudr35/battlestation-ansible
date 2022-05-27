@@ -112,6 +112,6 @@ extensions:
 - native-window-placement@gnome-shell-extensions.gcampax.github.com
 - places-menu@gnome-shell-extensions.gcampax.github.com
 - user-theme@gnome-shell-extensions.gcampax.github.com
-dns-primary: "9.9.9.11#dns11.quad9.net"
-dns-fallback: "149.112.112.11#dns11.quad9.net"
+dnsprimary: "9.9.9.11#dns11.quad9.net"
+dnsfallback: "149.112.112.11#dns11.quad9.net"
 
