@@ -1,0 +1,25 @@
+---
+- name: Prepare Fedora Silverblue base system
+  become: yes
+  hosts: localhost
+  vars_files:
+  - variables.yml
+  tasks:
+  - name: Install systemd-resolved configuration
+    ansible.builtin.template:
+      src: resolved.conf.j2
+      dest: /etc/systemd/resolved.conf
+      owner: root
+      group: root
+      mode: '0644'
+  - name: Apply package overrides
+    ansible.builtin.shell: rpm-ostree override remove {{ overrides }}
+    ignore_errors: yes
+  - name: Install overlay packages
+    community.general.rpm_ostree_pkg:
+      name: "{{ packages }}"
+      state: present
+  - name: Ready for reboot
+    ansible.builtin.debug:
+      msg: "Ready to reboot!  Run playbook \"1-flatpak.yml\" when back"
+

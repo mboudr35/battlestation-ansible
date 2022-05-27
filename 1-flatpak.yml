@@ -1,0 +1,29 @@
+---
+- name: Prepare flatpaks
+  hosts: localhost
+  vars_files:
+  - variables.yml
+  tasks:
+  - name: Remove all currently installed flatpaks
+    ansible.builtin.shell: flatpak uninstall --noninteractive --all
+  - name: Disable fedora flatpak repositories
+    ansible.builtin.shell: flatpak remote-delete {{ item }}
+    ignore_errors: yes
+    loop:
+    - fedora
+    - fedora-testing
+    - flathub
+  - name: Enable flathub flatpak repository
+    community.general.flatpak_remote:
+      name: flathub
+      state: present
+      flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  - name: Install new flatpaks
+    community.general.flatpak:
+      name: "{{ flatpaks }}"
+      state: present
+      remote: flathub
+  - name: Ready for GNOME extensions
+    ansible.builtin.debug:
+      msg: "Flatpaks configured!  Ready for GNOME configuration in playbook \"2-gnome.yml\" (requires user interaction)"
+

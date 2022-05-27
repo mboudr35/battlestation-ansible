@@ -1,0 +1,12 @@
+---
+- name: Prepare GNOME
+  hosts: localhost
+  vars_files:
+  - variables.yml
+  tasks:
+  - name: Install GNOME extensions
+    ansible.builtin.shell: gdbus call --session --dest org.gnome.Shell.Extensions --object-path /org/gnome/Shell/Extensions --method org.gnome.Shell.Extensions.InstallRemoteExtension "{{ item }}"
+    loop: "{{ extensions }}"
+    loop_control:
+      pause: 2
+
