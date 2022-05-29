@@ -23,6 +23,8 @@
       name: "{{ flatpaks }}"
       state: present
       remote: flathub
+  - name: Set firefox flatpak wayland override
+    ansible.builtin.shell: flatpak override --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.firefox
   - name: Ready for GNOME extensions
     ansible.builtin.debug:
       msg: "Flatpaks configured!  Ready for GNOME configuration in playbook \"2-gnome.yml\" (requires user interaction)"
